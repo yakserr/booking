@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoomController;
+use App\Http\Controllers\HotelController;
+use App\Http\Controllers\BookingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,8 +20,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+require __DIR__ . '/auth.php';
 
-require __DIR__.'/auth.php';
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::resource('hotels', HotelController::class)
+        ->only(['index']);
+
+    Route::resource('rooms', RoomController::class)
+        ->only(['index']);
+
+    Route::resource('bookings', BookingController::class)
+        ->only(['index', 'store']);
+});
