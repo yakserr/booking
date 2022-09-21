@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('hotel_id')->constrained('hotels')->onDelete('cascade');
             $table->integer('price');
-            $table->enum('status', ['available', 'Booked']);
+            $table->enum('status', ['available', 'booked']);
             $table->timestamps();
         });
     }
